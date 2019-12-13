@@ -1,0 +1,27 @@
+﻿@model List<Book>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="display-1">Books Page</h2>
+<br />
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Название книги</th>
+            <th>Цена</th>
+            <th>Кол-во страниц</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Title</td>
+            <td>@item.Price</td>
+            <td>@item.Pages</td>
+        </tr>
+    }
+</table>
+

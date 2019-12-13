@@ -1,0 +1,149 @@
+/*    ==Параметры сценариев==
+
+    Версия исходного сервера : SQL Server 2012 (11.0.2100)
+    Выпуск исходного ядра СУБД : Выпуск Microsoft SQL Server Express Edition
+    Тип исходного ядра СУБД : Изолированный SQL Server
+
+    Версия целевого сервера : SQL Server 2017
+    Выпуск целевого ядра СУБД : Выпуск Microsoft SQL Server Standard Edition
+    Тип целевого ядра СУБД : Изолированный SQL Server
+*/
+USE [master]
+GO
+/****** Object:  Database [Library]    Script Date: 30.11.2019 13:51:38 ******/
+CREATE DATABASE [Library]
+ALTER DATABASE [Library] SET COMPATIBILITY_LEVEL = 110
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Library].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Library] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Library] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Library] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Library] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Library] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Library] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [Library] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Library] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Library] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Library] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Library] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Library] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Library] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Library] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Library] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [Library] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Library] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Library] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Library] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Library] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Library] SET READ_COMMITTED_SNAPSHOT ON 
+GO
+ALTER DATABASE [Library] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Library] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [Library] SET  MULTI_USER 
+GO
+ALTER DATABASE [Library] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Library] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Library] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Library] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+USE [Library]
+GO
+/****** Object:  Table [dbo].[__MigrationHistory]    Script Date: 30.11.2019 13:51:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[__MigrationHistory](
+	[MigrationId] [nvarchar](150) NOT NULL,
+	[ContextKey] [nvarchar](300) NOT NULL,
+	[Model] [varbinary](max) NOT NULL,
+	[ProductVersion] [nvarchar](32) NOT NULL,
+ CONSTRAINT [PK_dbo.__MigrationHistory] PRIMARY KEY CLUSTERED 
+(
+	[MigrationId] ASC,
+	[ContextKey] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Authors]    Script Date: 30.11.2019 13:51:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Authors](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](max) NULL,
+	[LastName] [nvarchar](max) NULL,
+ CONSTRAINT [PK_dbo.Authors] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Books]    Script Date: 30.11.2019 13:51:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Books](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](max) NULL,
+	[Price] [int] NOT NULL,
+	[AuthorId] [int] NOT NULL,
+	[Pages] [int] NOT NULL,
+ CONSTRAINT [PK_dbo.Books] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 30.11.2019 13:51:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UsersName] [nvarchar](max) NULL,
+	[Address] [nvarchar](max) NULL,
+ CONSTRAINT [PK_dbo.Users] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Books] ADD  DEFAULT ((0)) FOR [Pages]
+GO
+USE [master]
+GO
+ALTER DATABASE [Library] SET  READ_WRITE 
+GO

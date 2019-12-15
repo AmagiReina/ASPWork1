@@ -6,7 +6,8 @@
 <h2 class="display-1">Books Page</h2>
 <br />
 
-
+@Html.ActionLink("Добавить новую книгу", "Create")
+<br />
 <table class="table table-striped">
     <thead>
         <tr>
@@ -17,11 +18,13 @@
     </thead>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@item.Title</td>
-            <td>@item.Price</td>
-            <td>@item.Pages</td>
-        </tr>
+<tr>
+    <td>@item.Title</td>
+    <td>@item.Price</td>
+    <td>@item.Pages</td>
+    <td>@Html.ActionLink("Редактировать книгу", "Edit", new { @id = item.Id })</td>
+    <td>@Html.ActionLink("Удалить книгу", "Delete", new { @id = item.Id })</td>
+</tr>
     }
 </table>
 

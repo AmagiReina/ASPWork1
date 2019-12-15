@@ -6,7 +6,8 @@
 <h2 class="display-2">Authors Page</h2>
 <br />
 
-
+@Html.ActionLink("Добавить нового автора", "Create")
+<br />
 <table class="table table-striped">
     <thead>
         <tr>
@@ -19,6 +20,8 @@
         <tr>
             <td>@item.FirstName</td>
             <td>@item.LastName</td>
+            <td>@Html.ActionLink("Редактировать автора", "Edit", new { @id = item.Id })</td>
+            <td>@Html.ActionLink("Удалить автора", "Delete", new { @id = item.Id })</td>
         </tr>
     }
 </table>

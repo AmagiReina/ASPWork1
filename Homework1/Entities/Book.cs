@@ -16,6 +16,8 @@ namespace Homework1
 
         public int AuthorId { get; set; }
 
+        public int GenreId { get; set; }
+
         public int Pages { get; set; }
     }
 }

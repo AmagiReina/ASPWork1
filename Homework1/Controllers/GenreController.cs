@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Homework1.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,44 +8,36 @@ using System.Data.Entity;
 
 namespace Homework1.Controllers
 {
-    public class BookController : Controller
+    public class GenreController : Controller
     {
-        // GET: Book
+        // GET: Genre
         public ActionResult Index()
         {
             using (Model1 db = new Model1())
             {
-                var books = db.Books.ToList();
+                var genres = db.Genres.ToList();
 
-                ViewBag.GenresList = db.Genres.ToList();
-
-                return View(books);
-            }
+                return View(genres);
+            }  
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            using (Model1 db = new Model1())
-            {
-                ViewBag.AuthorList = new SelectList(db.Authors.ToList(), "id", "LastName");
-                ViewBag.GenresList = new SelectList(db.Genres.ToList(), "id", "GenreName");
-
-                return View();
-            }
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Book book)
+        public ActionResult Create(Genre genre)
         {
             using (Model1 db = new Model1())
             {
                 if (ModelState.IsValid)
                 {
-                    db.Books.Add(book);
+                    db.Genres.Add(genre);
                     db.SaveChanges();
                 }
-                else return View(book);
+                else return View(genre);
             }
             return RedirectToAction("Index");
         }
@@ -54,25 +47,23 @@ namespace Homework1.Controllers
         {
             using (Model1 db = new Model1())
             {
-                var book = db.Books.Find(id);
-                ViewBag.AuthorList = new SelectList(db.Authors.ToList(), "Id", "LastName");
-                ViewBag.GenresList = new SelectList(db.Genres.ToList(), "id", "GenreName");
+                var genre = db.Genres.Find(id);
 
-                return View(book);
+                return View(genre);
             }
         }
 
         [HttpPost]
-        public ActionResult Edit(Book book)
+        public ActionResult Edit(Genre genre)
         {
             using (Model1 db = new Model1())
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(book).State = EntityState.Modified;
+                    db.Entry(genre).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                else return View(book);
+                else return View(genre);
             }
             return RedirectToAction("Index");
         }
@@ -81,15 +72,14 @@ namespace Homework1.Controllers
         {
             using (Model1 db = new Model1())
             {
-                var book = db.Books.Find(id);
-                if (book != null)
+                var genre = db.Genres.Find(id);
+                if (genre != null)
                 {
-                    db.Books.Remove(book);
+                    db.Genres.Remove(genre);
                     db.SaveChanges();
                 }
             }
             return RedirectToAction("Index");
         }
-
     }
 }

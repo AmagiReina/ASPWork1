@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="display-1">Genres Page</h2>
+<br />
+
+@Html.ActionLink("Добавить новый жанр", "Create")
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Название жанра</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.GenreName</td>
+            <td>@Html.ActionLink("Редактировать жанр", "Edit", new { @id = item.Id })</td>
+            <td>@Html.ActionLink("Удалить жанр", "Delete", new { @id = item.Id })</td>
+        </tr>
+    }
+</table>
+

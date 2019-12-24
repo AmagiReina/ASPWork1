@@ -7,44 +7,36 @@ using System.Data.Entity;
 
 namespace Homework1.Controllers
 {
-    public class BookController : Controller
+    public class UserController : Controller
     {
-        // GET: Book
+        // GET: User
         public ActionResult Index()
         {
             using (Model1 db = new Model1())
             {
-                var books = db.Books.ToList();
+                var users = db.Users.ToList();
 
-                ViewBag.GenresList = db.Genres.ToList();
-
-                return View(books);
+                return View(users);
             }
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            using (Model1 db = new Model1())
-            {
-                ViewBag.AuthorList = new SelectList(db.Authors.ToList(), "id", "LastName");
-                ViewBag.GenresList = new SelectList(db.Genres.ToList(), "id", "GenreName");
-
-                return View();
-            }
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Book book)
+        public ActionResult Create(User user)
         {
             using (Model1 db = new Model1())
             {
                 if (ModelState.IsValid)
                 {
-                    db.Books.Add(book);
+                    db.Users.Add(user);
                     db.SaveChanges();
                 }
-                else return View(book);
+                else return View(user);
             }
             return RedirectToAction("Index");
         }
@@ -54,25 +46,24 @@ namespace Homework1.Controllers
         {
             using (Model1 db = new Model1())
             {
-                var book = db.Books.Find(id);
-                ViewBag.AuthorList = new SelectList(db.Authors.ToList(), "Id", "LastName");
-                ViewBag.GenresList = new SelectList(db.Genres.ToList(), "id", "GenreName");
+                var user = db.Users.Find(id);
 
-                return View(book);
+                return View(user);
             }
         }
 
+
         [HttpPost]
-        public ActionResult Edit(Book book)
+        public ActionResult Edit(User user)
         {
             using (Model1 db = new Model1())
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(book).State = EntityState.Modified;
+                    db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                else return View(book);
+                else return View(user);
             }
             return RedirectToAction("Index");
         }
@@ -81,15 +72,14 @@ namespace Homework1.Controllers
         {
             using (Model1 db = new Model1())
             {
-                var book = db.Books.Find(id);
-                if (book != null)
+                var user = db.Users.Find(id);
+                if (user != null)
                 {
-                    db.Books.Remove(book);
+                    db.Users.Remove(user);
                     db.SaveChanges();
                 }
             }
             return RedirectToAction("Index");
         }
-
     }
 }

@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="display-1">Users Page</h2>
+<br />
+
+@Html.ActionLink("Добавить нового читателя", "Create")
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Имя читателя</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.UsersName</td>
+            <td>@Html.ActionLink("Редактировать данные читателя", "Edit", new { @id = item.Id })</td>
+            <td>@Html.ActionLink("Удалить читателя", "Delete", new { @id = item.Id })</td>
+        </tr>
+    }
+</table>
+

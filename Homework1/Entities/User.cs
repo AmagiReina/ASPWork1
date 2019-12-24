@@ -11,7 +11,5 @@ namespace Homework1
         public int Id { get; set; }
 
         public string UsersName { get; set; }
-
-        public string Address { get; set; }
     }
 }

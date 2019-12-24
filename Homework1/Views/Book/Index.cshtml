@@ -1,4 +1,7 @@
-﻿@model List<Book>
+﻿@using Homework1.Utils
+@using Homework1.Entities
+@model List<Book>
+
 @{
     ViewBag.Title = "Index";
 }
@@ -18,13 +21,19 @@
     </thead>
     @foreach (var item in Model)
     {
-<tr>
-    <td>@item.Title</td>
-    <td>@item.Price</td>
-    <td>@item.Pages</td>
-    <td>@Html.ActionLink("Редактировать книгу", "Edit", new { @id = item.Id })</td>
-    <td>@Html.ActionLink("Удалить книгу", "Delete", new { @id = item.Id })</td>
-</tr>
+        <tr>
+            <td>@item.Title</td>
+            <td>@item.Price</td>
+            <td>@item.Pages</td>
+            <td>@Html.ActionLink("Редактировать книгу", "Edit", new { @id = item.Id })</td>
+            <td>@Html.ActionLink("Удалить книгу", "Delete", new { @id = item.Id })</td>
+        </tr>
     }
+
 </table>
 
+
+<div>
+    Genres List:
+    @Html.ListItems(ViewBag.GenresList as List<Genre>);
+</div>

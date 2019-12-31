@@ -1,0 +1,14 @@
+﻿@model List<User>
+
+<h2>People who read that book</h2>
+
+<table class="table table-striped" id="displayPartial">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td id="partial-username">@item.UsersName</td>
+        </tr>
+    }
+</table>
+
+

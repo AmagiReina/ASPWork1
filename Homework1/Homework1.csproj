@@ -132,11 +132,13 @@
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Entities\Author.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Entities\Order.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -156,6 +158,10 @@
     <Compile Include="Migrations\201912240448285_Alter-Books-Add-Genre-Id.designer.cs">
       <DependentUpon>201912240448285_Alter-Books-Add-Genre-Id.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912310316588_Add-Order.cs" />
+    <Compile Include="Migrations\201912310316588_Add-Order.designer.cs">
+      <DependentUpon>201912310316588_Add-Order.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -173,6 +179,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bookscript.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -212,6 +219,9 @@
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Book\Partial\_UsersReadBook.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -242,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912240448285_Alter-Books-Add-Genre-Id.resx">
       <DependentUpon>201912240448285_Alter-Books-Add-Genre-Id.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912310316588_Add-Order.resx">
+      <DependentUpon>201912310316588_Add-Order.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

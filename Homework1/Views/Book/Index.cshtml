@@ -8,9 +8,11 @@
 
 <h2 class="display-1">Books Page</h2>
 <br />
+@Scripts.Render("~/bundles/customscripts")
 
 @Html.ActionLink("Добавить новую книгу", "Create")
 <br />
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -21,7 +23,7 @@
     </thead>
     @foreach (var item in Model)
     {
-        <tr>
+        <tr id="@item.Id" class="record">
             <td>@item.Title</td>
             <td>@item.Price</td>
             <td>@item.Pages</td>
@@ -35,5 +37,9 @@
 
 <div>
     Genres List:
-    @Html.ListItems(ViewBag.GenresList as List<Genre>);
+    @Html.ListItems(ViewBag.GenresList as List<Genre>)
+</div>
+
+<div id="displayPartial">
+
 </div>

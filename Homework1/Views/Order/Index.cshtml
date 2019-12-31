@@ -1,0 +1,24 @@
+﻿@using Homework1.Entities
+@model List<Order>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="display-1">Orders Page</h2>
+<br />
+
+@Html.ActionLink("Добавить новый заказ", "Create")
+<br />
+
+<table class="table table-striped">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Users.UsersName</td>
+            <td>@item.Books.Title</td>
+            <td>@Html.ActionLink("Редактировать заказ", "Edit", new { @id = item.Id })</td>
+            <td>@Html.ActionLink("Удалить заказ", "Delete", new { @id = item.Id })</td>
+        </tr>
+    }
+</table>
+

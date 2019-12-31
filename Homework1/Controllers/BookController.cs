@@ -91,5 +91,21 @@ namespace Homework1.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult GetUsersReadBook(int bookId)
+        {
+            using (Model1 db = new Model1())
+            {
+                var users = db.Orders.Where(o => o.BookId == bookId).Select(o => o.UserId);
+
+                List<User> userList = new List<User>();
+                foreach (int item in users)
+                {
+                    var us = db.Users.Where(u => u.Id == item).FirstOrDefault();
+                    userList.Add(us);
+                }
+                return PartialView("Partial/_UsersReadBook", userList);
+            }
+        }
+
     }
 }

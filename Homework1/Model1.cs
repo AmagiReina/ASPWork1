@@ -18,6 +18,7 @@ namespace Homework1
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Survey> Surveys { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -1,0 +1,28 @@
+﻿@using Homework1.Entities
+@model List<Survey>
+@{
+    ViewBag.Title = "Stats";
+}
+
+<h2>Stats</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Пользователь</th>
+            <th>Название книги</th>
+            <th>Любимый жанр</th>
+            <th>Комментарий</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.UserName</td>
+            <td>@item.Books.Title</td>
+            <td>@item.Genres.GenreName</td>
+            <td>@item.Comment</td>
+        </tr>
+    }
+</table>
+

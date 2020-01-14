@@ -19,5 +19,7 @@ namespace Homework1
         public int GenreId { get; set; }
 
         public int Pages { get; set; }
+
+        public byte[] BookImage { get; set; }
     }
 }

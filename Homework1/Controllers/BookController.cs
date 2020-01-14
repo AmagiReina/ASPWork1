@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using System.IO;
 
 namespace Homework1.Controllers
 {
@@ -27,20 +28,30 @@ namespace Homework1.Controllers
         {
             using (Model1 db = new Model1())
             {
-                ViewBag.AuthorList = new SelectList(db.Authors.ToList(), "id", "LastName");
-                ViewBag.GenresList = new SelectList(db.Genres.ToList(), "id", "GenreName");
+                ViewBag.AuthorList = new SelectList(db.Authors.ToList(), "Id", "LastName");
+                //ViewBag.GenresList = new SelectList(db.Genres.ToList(), "Id", "GenreName");
 
                 return View();
             }
         }
 
         [HttpPost]
-        public ActionResult Create(Book book)
+        public ActionResult Create(Book book, HttpPostedFileBase uploadImage)
         {
             using (Model1 db = new Model1())
             {
                 if (ModelState.IsValid)
                 {
+                    byte[] imageData = null;
+
+                    using (var binaryReader = new BinaryReader(uploadImage.InputStream) )
+                    {
+                        imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                    }
+
+                    book.BookImage = imageData;
+
+
                     db.Books.Add(book);
                     db.SaveChanges();
                 }
@@ -104,6 +115,19 @@ namespace Homework1.Controllers
                     userList.Add(us);
                 }
                 return PartialView("Partial/_UsersReadBook", userList);
+            }
+        }
+
+        /**
+         * Genres for dropdown
+         */
+        public JsonResult GetGenres()
+        {
+            using (Model1 db = new Model1())
+            {
+                var genres = db.Genres.ToList();
+
+                return Json(genres, JsonRequestBehavior.AllowGet);
             }
         }
 

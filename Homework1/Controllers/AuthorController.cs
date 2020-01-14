@@ -23,7 +23,7 @@ namespace Homework1.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return PartialView("Partial/_Create");
         }
 
         [HttpPost]
@@ -48,7 +48,7 @@ namespace Homework1.Controllers
             {
                 var author = db.Authors.Find(id);
 
-                return View(author);
+                return PartialView("Partial/_Edit", author);
             }
         }
 

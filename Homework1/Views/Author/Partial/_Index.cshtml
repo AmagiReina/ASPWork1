@@ -1,0 +1,20 @@
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Имя автора</th>
+            <th>Фамилия автора</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td><a href="@Url.Action("Edit", "Author", new { id = item.Id })" class="editDialog">
+                                    <i class="fafa-pencil-square-o"></i>&nbsp;Редактировать автора</a></td>
+            <td>@Ajax.ActionLink("Удалить автора", "Delete", "Author", new { @id = item.Id }, 
+               new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "div-record" }, new { @class = "fa fa-trash-o" })</td>
+        </tr>
+    }
+</table>
+@Scripts.Render("~/bundles/modalscript")

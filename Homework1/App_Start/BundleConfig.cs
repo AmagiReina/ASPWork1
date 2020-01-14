@@ -26,8 +26,14 @@ namespace Homework1
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/customscripts").Include(
+            bundles.Add(new ScriptBundle("~/bundles/bookscript").Include(
                        "~/Scripts/bookscript.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/modalscript").Include(
+                       "~/Scripts/modalscript.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/genrescript").Include(
+                      "~/Scripts/genrescript.js"));
         }
     }
 }

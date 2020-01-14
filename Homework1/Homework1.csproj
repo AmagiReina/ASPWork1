@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +45,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -133,12 +135,14 @@
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Entities\Author.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\Order.cs" />
+    <Compile Include="Entities\Survey.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -162,6 +166,18 @@
     <Compile Include="Migrations\201912310316588_Add-Order.designer.cs">
       <DependentUpon>201912310316588_Add-Order.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001140644438_Book-Add-Image-Col.cs" />
+    <Compile Include="Migrations\202001140644438_Book-Add-Image-Col.designer.cs">
+      <DependentUpon>202001140644438_Book-Add-Image-Col.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001140716552_Alter-Book-Image-Col.cs" />
+    <Compile Include="Migrations\202001140716552_Alter-Book-Image-Col.designer.cs">
+      <DependentUpon>202001140716552_Alter-Book-Image-Col.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001141331107_Add-Survey.cs" />
+    <Compile Include="Migrations\202001141331107_Add-Survey.designer.cs">
+      <DependentUpon>202001141331107_Add-Survey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -183,6 +199,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\genrescript.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -192,6 +209,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modalscript.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -222,6 +240,11 @@
     <Content Include="Views\Book\Partial\_UsersReadBook.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\Create.cshtml" />
+    <Content Include="Views\Author\Partial\_Create.cshtml" />
+    <Content Include="Views\Author\Partial\_Index.cshtml" />
+    <Content Include="Views\Author\Partial\_Edit.cshtml" />
+    <Content Include="Views\Survey\Index.cshtml" />
+    <Content Include="Views\Survey\Stats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -255,6 +278,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912310316588_Add-Order.resx">
       <DependentUpon>201912310316588_Add-Order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001140644438_Book-Add-Image-Col.resx">
+      <DependentUpon>202001140644438_Book-Add-Image-Col.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001140716552_Alter-Book-Image-Col.resx">
+      <DependentUpon>202001140716552_Alter-Book-Image-Col.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001141331107_Add-Survey.resx">
+      <DependentUpon>202001141331107_Add-Survey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

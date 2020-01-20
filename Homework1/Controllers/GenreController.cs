@@ -5,20 +5,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using Homework1.UnitOfWork;
 
 namespace Homework1.Controllers
 {
     public class GenreController : Controller
     {
+        private UnitOfWorkImpl unitOfWork;
+
+        public GenreController()
+        {
+            unitOfWork = new UnitOfWorkImpl();
+        }
+
         // GET: Genre
         public ActionResult Index()
         {
-            using (Model1 db = new Model1())
-            {
-                var genres = db.Genres.ToList();
+            var genres = unitOfWork.Genre.GetAll();
 
-                return View(genres);
-            }  
+            return View(genres.ToList());
         }
 
         [HttpGet]
@@ -30,55 +35,42 @@ namespace Homework1.Controllers
         [HttpPost]
         public ActionResult Create(Genre genre)
         {
-            using (Model1 db = new Model1())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Genres.Add(genre);
-                    db.SaveChanges();
-                }
-                else return View(genre);
+                unitOfWork.Genre.Create(genre);
+                unitOfWork.Genre.Save();
             }
+            else return View(genre);
+
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            using (Model1 db = new Model1())
-            {
-                var genre = db.Genres.Find(id);
+            var genre = unitOfWork.Genre.FindById(id);
 
-                return View(genre);
-            }
+            return View(genre);
         }
 
         [HttpPost]
         public ActionResult Edit(Genre genre)
         {
-            using (Model1 db = new Model1())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(genre).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                else return View(genre);
+                unitOfWork.Genre.Update(genre);
+                unitOfWork.Genre.Save();
             }
+            else return View(genre);
+
             return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int id)
         {
-            using (Model1 db = new Model1())
-            {
-                var genre = db.Genres.Find(id);
-                if (genre != null)
-                {
-                    db.Genres.Remove(genre);
-                    db.SaveChanges();
-                }
-            }
+            unitOfWork.Genre.Delete(id);
+            unitOfWork.Genre.Save();
+
             return RedirectToAction("Index");
         }
     }

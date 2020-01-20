@@ -1,4 +1,5 @@
 ﻿using Homework1.Entities;
+using Homework1.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,44 +10,45 @@ namespace Homework1.Controllers
 {
     public class OrderController : Controller
     {
+        private UnitOfWorkImpl unitOfWork;
+
+        public OrderController()
+        {
+            unitOfWork = new UnitOfWorkImpl();
+        }
+
         // GET: Order
         public ActionResult Index()
         {
-            using (Model1 db = new Model1())
-            {
-                var orders = db.Orders.ToList();
+            var orders = unitOfWork.Order.GetAll();
 
-                ViewBag.UsersList = db.Users.ToList();
-                ViewBag.BooksList = db.Books.ToList();
+            ViewBag.UsersList = unitOfWork.User.GetAll().ToList();
+            ViewBag.BooksList = unitOfWork.Book.GetAll().ToList();
 
-                return View(orders);
-            }
+            return View(orders.ToList());
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            using (Model1 db = new Model1())
-            {
-                ViewBag.UsersList = new SelectList(db.Users.ToList(), "id", "UsersName");
-                ViewBag.BooksList = new SelectList(db.Books.ToList(), "id", "Title");
+            ViewBag.UsersList = new SelectList(unitOfWork.User.GetAll().ToList(),
+                "id", "UsersName");
+            ViewBag.BooksList = new SelectList(unitOfWork.Book.GetAll().ToList(),
+                "id", "Title");
 
-                return View();
-            }
+            return View();           
         }
 
         [HttpPost]
         public ActionResult Create(Order order)
         {
-            using (Model1 db = new Model1())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Orders.Add(order);
-                    db.SaveChanges();
-                }
-                else return View(order);
+                unitOfWork.Order.Create(order);
+                unitOfWork.Book.Save();
             }
+            else return View(order);
+
             return RedirectToAction("Index");
         }
     }

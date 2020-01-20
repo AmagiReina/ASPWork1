@@ -4,20 +4,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using Homework1.UnitOfWork;
 
 namespace Homework1.Controllers
 {
     public class AuthorController : Controller
     {
+        private UnitOfWorkImpl unitOfWork;
+
+        public AuthorController()
+        {
+            unitOfWork = new UnitOfWorkImpl();
+        }
+
         // GET: Author
         public ActionResult Index()
         {
-            using (Model1 db = new Model1())
-            {
-                var authors = db.Authors.ToList();
-
-                return View(authors);
-            }
+            var author = unitOfWork.Author.GetAll();
+            
+            return View(author.ToList());
         }
 
         [HttpGet]
@@ -29,56 +34,43 @@ namespace Homework1.Controllers
         [HttpPost]
         public ActionResult Create(Author author)
         {
-            using (Model1 db = new Model1())
-            {
-                if (ModelState.IsValid)
-                {
-                    db.Authors.Add(author);
-                    db.SaveChanges();
-                }
-                else return View(author);
-            }
-            return RedirectToAction("Index");
+           if (ModelState.IsValid)
+           {
+                unitOfWork.Author.Create(author);
+                unitOfWork.Author.Save();
+           }
+           else return View(author);
+
+           return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            using (Model1 db = new Model1())
-            {
-                var author = db.Authors.Find(id);
+            var author = unitOfWork.Author.FindById(id);
 
-                return View(author);
-            }
+            return View(author);
         }
 
         [HttpPost]
         public ActionResult Edit(Author author)
         {
-            using (Model1 db = new Model1())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(author).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                else return View(author);
+                unitOfWork.Author.Update(author);
+                unitOfWork.Author.Save();
             }
+            else return View(author);
+            
             return RedirectToAction("Index");
         }
 
 
         public ActionResult Delete(int id)
         {
-            using (Model1 db = new Model1())
-            {
-                var author = db.Authors.Find(id);
-                if (author != null)
-                {
-                    db.Authors.Remove(author);
-                    db.SaveChanges();
-                }
-            }
+            unitOfWork.Author.Delete(id);
+            unitOfWork.Author.Save();
+         
             return RedirectToAction("Index");
         }
     }

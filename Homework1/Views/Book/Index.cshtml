@@ -1,6 +1,5 @@
-﻿@using Homework1.Utils
-@using Homework1.Entities
-@model List<Book>
+﻿@using Homework1.Models
+@model List<BookViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -8,7 +7,7 @@
 
 <h2 class="display-1">Books Page</h2>
 <br />
-@Scripts.Render("~/bundles/customscripts")
+@*Scripts.Render("~/bundles/customscripts")*@
 
 @Html.ActionLink("Добавить новую книгу", "Create")
 <br />
@@ -36,8 +35,9 @@
 
 
 <div>
-    Genres List:
-    @Html.ListItems(ViewBag.GenresList as List<Genre>)
+    <!--Genres List:
+    @*Html.ListItems(ViewBag.GenresList as List<GenreViewModel>)*@-->
+    
 </div>
 
 <div id="displayPartial">

@@ -4,25 +4,33 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
-using Homework1.UnitOfWork;
+using BusinessLayer.Interfaces;
+using BusinessLayer.DTO;
+using AutoMapper;
+using BusinessLayer.Services;
+using Homework1.Models;
 
 namespace Homework1.Controllers
 {
     public class UserController : Controller
     {
-        private UnitOfWorkImpl unitOfWork;
+        private IService<UserDTO> userService;
+        private IMapper mapper;
 
-        public UserController()
+        public UserController(IMapper mapper)
         {
-            unitOfWork = new UnitOfWorkImpl();
+            userService = DependencyResolver.Current.GetService<UserService>();
+            this.mapper = mapper;
         }
 
         // GET: User
         public ActionResult Index()
         {
-            var users = unitOfWork.User.GetAll();
+            IEnumerable<UserDTO> userDto = userService.GetAll();
+            var viewModel = mapper.Map<IEnumerable<UserDTO>,
+                List<UserViewModel>>(userDto);
 
-            return View(users.ToList());
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -32,12 +40,12 @@ namespace Homework1.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(User user)
+        public ActionResult Create(UserViewModel user)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.User.Create(user);
-                unitOfWork.User.Save();
+                UserDTO userDto = mapper.Map<UserViewModel, UserDTO>(user);
+                userService.Save(userDto);
             }
             else return View(user);
 
@@ -47,19 +55,21 @@ namespace Homework1.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var user = unitOfWork.User.FindById(id);
+            var userDto = userService.GetById(id);
 
-            return View(user);
+            var viewModel = mapper.Map<UserDTO, UserViewModel>(userDto);
+
+            return View(viewModel);
         }
 
 
         [HttpPost]
-        public ActionResult Edit(User user)
+        public ActionResult Edit(UserViewModel user)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.User.Update(user);
-                unitOfWork.User.Save();
+                var userDto = mapper.Map<UserDTO>(user);
+                userService.Save(userDto);
             }
             else return View(user);
 
@@ -68,8 +78,7 @@ namespace Homework1.Controllers
 
         public ActionResult Delete(int id)
         {
-            unitOfWork.User.Delete(id);
-            unitOfWork.User.Save();
+            userService.Remove(id);
 
             return RedirectToAction("Index");
         }

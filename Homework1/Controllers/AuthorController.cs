@@ -1,30 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using System.Data.Entity;
-using Homework1.UnitOfWork;
+using AutoMapper;
+using Homework1.Models;
+using BusinessLayer.DTO;
+using BusinessLayer.Interfaces;
+using BusinessLayer.Services;
 
 namespace Homework1.Controllers
 {
     public class AuthorController : Controller
     {
-        private UnitOfWorkImpl unitOfWork;
+        private IService<AuthorDTO> service;
+        private IMapper mapper;
 
-        public AuthorController()
+        public AuthorController(IMapper mapper)
         {
-            unitOfWork = new UnitOfWorkImpl();
+            service = DependencyResolver.Current.GetService<AuthorService>(); 
+            this.mapper = mapper;
         }
 
         // GET: Author
         public ActionResult Index()
         {
-            var author = unitOfWork.Author.GetAll();
+            IEnumerable<AuthorDTO> authorDto = service.GetAll();
+            var viewModel = mapper.Map<IEnumerable<AuthorDTO>,
+                List<AuthorViewModel>>(authorDto);
             
-            return View(author.ToList());
+            return View(viewModel);
         }
-
+        
         [HttpGet]
         public ActionResult Create()
         {
@@ -32,12 +36,12 @@ namespace Homework1.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Author author)
+        public ActionResult Create(AuthorViewModel author)
         {
            if (ModelState.IsValid)
            {
-                unitOfWork.Author.Create(author);
-                unitOfWork.Author.Save();
+                AuthorDTO authorDto = mapper.Map<AuthorViewModel, AuthorDTO>(author);
+                service.Save(authorDto);
            }
            else return View(author);
 
@@ -47,18 +51,20 @@ namespace Homework1.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var author = unitOfWork.Author.FindById(id);
+            var authorDto = service.GetById(id);
 
-            return View(author);
+            var viewModel = mapper.Map<AuthorDTO, AuthorViewModel>(authorDto);
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Edit(Author author)
+        public ActionResult Edit(AuthorViewModel author)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.Author.Update(author);
-                unitOfWork.Author.Save();
+                var authorDto = mapper.Map<AuthorDTO>(author);
+                service.Save(authorDto);
             }
             else return View(author);
             
@@ -68,8 +74,7 @@ namespace Homework1.Controllers
 
         public ActionResult Delete(int id)
         {
-            unitOfWork.Author.Delete(id);
-            unitOfWork.Author.Save();
+            service.Remove(id);
          
             return RedirectToAction("Index");
         }

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Homework1.Entities
+namespace Homework1.Models
 {
-    public class Genre
+    public class UserViewModel
     {
         public int Id { get; set; }
-        
-        public string GenreName { get; set; }
+
+        public string UsersName { get; set; }
     }
 }

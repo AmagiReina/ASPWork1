@@ -1,5 +1,5 @@
-﻿@using Homework1.Entities
-@model List<Order>
+﻿@using Homework1.Models
+@model List<OrderViewModel>
 @{
     ViewBag.Title = "Index";
 }
@@ -13,12 +13,12 @@
 <table class="table table-striped">
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@item.Users.UsersName</td>
-            <td>@item.Books.Title</td>
-            <td>@Html.ActionLink("Редактировать заказ", "Edit", new { @id = item.Id })</td>
-            <td>@Html.ActionLink("Удалить заказ", "Delete", new { @id = item.Id })</td>
-        </tr>
+    <tr>
+         <td>@item.Users.UsersName</td>
+         <td>@item.Books.Title</td>
+        <td>@Html.ActionLink("Редактировать заказ", "Edit", new { @id = item.Id })</td>
+        <td>@Html.ActionLink("Удалить заказ", "Delete", new { @id = item.Id })</td>
+    </tr>
     }
 </table>
 

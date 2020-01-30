@@ -1,5 +1,4 @@
-﻿using Homework1.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +8,8 @@ namespace Homework1.Utils
 {
     public static class EditHelper
     {
+        #region Disabled due to not being implemented in repository/business layer
+        /*
         public static MvcHtmlString ListItems(this HtmlHelper html, List<Genre> items)
         {
             TagBuilder list = new TagBuilder("ul");
@@ -22,5 +23,7 @@ namespace Homework1.Utils
 
             return new MvcHtmlString(list.ToString());
         }
+        */
+        #endregion 
     }
 }

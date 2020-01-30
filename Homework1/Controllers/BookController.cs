@@ -3,48 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Data.Entity;
-using Homework1.UnitOfWork;
+using AutoMapper;
+using BusinessLayer.DTO;
+using BusinessLayer.Interfaces;
+using BusinessLayer.Services;
+using Homework1.Models;
 
 namespace Homework1.Controllers
 {
     public class BookController : Controller
     {
-        private UnitOfWorkImpl unitOfWork;
+        // TODO: Service Factory class in BL to call services from
+        private IService<BookDTO> bookService;
+        private IService<AuthorDTO> authorService;
+        private IService<GenreDTO> genreService;
+        private IMapper mapper;
 
-        public BookController()
+        public BookController(IMapper mapper)
         {
-            unitOfWork = new UnitOfWorkImpl();
+            bookService = DependencyResolver.Current.GetService<BookService>();
+            authorService = DependencyResolver.Current.GetService<AuthorService>();
+            genreService = DependencyResolver.Current.GetService<GenreService>();
+            this.mapper = mapper;
         }
 
         // GET: Book
         public ActionResult Index()
         {
-            var books = unitOfWork.Book.GetAll();
+            IEnumerable<BookDTO> bookDto = bookService.GetAll();
+            var viewModel = mapper.Map<IEnumerable<BookDTO>,
+                List<BookViewModel>>(bookDto);
 
-            ViewBag.GenresList = unitOfWork.Genre.GetAll().ToList();
-
-            return View(books.ToList());
+            return View(viewModel);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.AuthorList = new SelectList(unitOfWork.Author.GetAll()
+            ViewBag.AuthorList = new SelectList(authorService.GetAll()
                 .ToList(), "id", "LastName");
-            ViewBag.GenresList = new SelectList(unitOfWork.Genre.GetAll()
+            ViewBag.GenresList = new SelectList(genreService.GetAll()
                 .ToList(),"id", "GenreName");
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Book book)
+        public ActionResult Create(BookViewModel book)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.Book.Create(book);
-                unitOfWork.Book.Save();
+                BookDTO bookDto = mapper.Map<BookViewModel, BookDTO>(book);
+                bookService.Save(bookDto);
             }
             else return View(book);
 
@@ -54,23 +64,25 @@ namespace Homework1.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var book = unitOfWork.Book.FindById(id);
+            var bookDto = bookService.GetById(id);
 
-            ViewBag.AuthorList = new SelectList(unitOfWork.Author.GetAll()
-                 .ToList(), "id", "LastName");
-            ViewBag.GenresList = new SelectList(unitOfWork.Genre.GetAll()
+            var viewModel = mapper.Map<BookDTO, BookViewModel>(bookDto);
+
+            ViewBag.AuthorList = new SelectList(authorService.GetAll()
+                .ToList(), "id", "LastName");
+            ViewBag.GenresList = new SelectList(genreService.GetAll()
                 .ToList(), "id", "GenreName");
 
-            return View(book);
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Edit(Book book)
+        public ActionResult Edit(BookViewModel book)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.Book.Update(book);
-                unitOfWork.Book.Save();
+                var bookDto = mapper.Map<BookDTO>(book);
+                bookService.Save(bookDto);
             }
             else return View(book);
 
@@ -79,13 +91,13 @@ namespace Homework1.Controllers
 
         public ActionResult Delete(int id)
         {
-            unitOfWork.Book.Delete(id);
-            unitOfWork.Book.Save();
+            bookService.Remove(id);
 
             return RedirectToAction("Index");
         }
 
         #region Not included in Generic Repository implementation
+        /*
         public ActionResult GetUsersReadBook(int bookId)
         {
             using (Model1 db = new Model1())
@@ -100,8 +112,8 @@ namespace Homework1.Controllers
                 }
                 return PartialView("Partial/_UsersReadBook", userList);
             }
-        }
+        }*/
         #endregion
-
+        
     }
 }

@@ -1,14 +1,10 @@
-﻿using Homework1.Entities;
-using Homework1.Repository;
+﻿using DataLayer.Entities;
+using DataLayer.Repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Homework1.UnitOfWork
+namespace DataLayer.UnitOfWork
 {
-    interface IUnitOfWork: IDisposable
+    public interface IUnitOfWork: IDisposable
     {
         GenericRepository<Author> Author { get; }
         GenericRepository<Book> Book { get; }

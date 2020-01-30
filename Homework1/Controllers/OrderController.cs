@@ -1,5 +1,8 @@
-﻿using Homework1.Entities;
-using Homework1.UnitOfWork;
+﻿using AutoMapper;
+using BusinessLayer.DTO;
+using BusinessLayer.Interfaces;
+using BusinessLayer.Services;
+using Homework1.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,42 +13,63 @@ namespace Homework1.Controllers
 {
     public class OrderController : Controller
     {
-        private UnitOfWorkImpl unitOfWork;
+        // TODO: Service Factory class in BL to call services from
+        private IService<BookDTO> bookService;
+        private IService<OrderDTO> orderService;
+        private IService<UserDTO> userService;
+        private IMapper mapper;
 
-        public OrderController()
+        public OrderController(IMapper mapper)
         {
-            unitOfWork = new UnitOfWorkImpl();
+            bookService = DependencyResolver.Current.GetService<BookService>();
+            orderService = DependencyResolver.Current.GetService<OrderService>();
+            userService = DependencyResolver.Current.GetService<UserService>();
+            this.mapper = mapper;
         }
 
         // GET: Order
         public ActionResult Index()
         {
-            var orders = unitOfWork.Order.GetAll();
 
-            ViewBag.UsersList = unitOfWork.User.GetAll().ToList();
-            ViewBag.BooksList = unitOfWork.Book.GetAll().ToList();
+            IEnumerable<OrderDTO> orderDto = orderService.GetAll();
+            var viewModel = mapper.Map<IEnumerable<OrderDTO>,
+                List<OrderViewModel>>(orderDto);
+            foreach (var item in viewModel)
+            {
+                // ViewBag is not working with ViewModels here
+                // Using LINQ to show UserName and Title of Book
+                // instead of Ids
+                item.Users = mapper.Map<UserViewModel>(userService.GetAll()
+                    .Where(x => x.Id == item.UserId)
+                    .FirstOrDefault());
 
-            return View(orders.ToList());
+                item.Books = mapper.Map<BookViewModel>(bookService.GetAll().
+                    Where(x => x.Id == item.BookId)
+                    .FirstOrDefault());
+            }
+
+
+            return View(viewModel);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.UsersList = new SelectList(unitOfWork.User.GetAll().ToList(),
+            ViewBag.UsersList = new SelectList(userService.GetAll().ToList(),
                 "id", "UsersName");
-            ViewBag.BooksList = new SelectList(unitOfWork.Book.GetAll().ToList(),
+            ViewBag.BooksList = new SelectList(bookService.GetAll().ToList(),
                 "id", "Title");
 
             return View();           
         }
 
         [HttpPost]
-        public ActionResult Create(Order order)
+        public ActionResult Create(OrderViewModel order)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.Order.Create(order);
-                unitOfWork.Book.Save();
+                OrderDTO orderDto = mapper.Map<OrderViewModel, OrderDTO>(order);
+                orderService.Save(orderDto);
             }
             else return View(order);
 

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Homework1.Entities;
-using Homework1.Repository;
+﻿using DataLayer.Entities;
+using DataLayer.Repository;
+using System;
 
-namespace Homework1.UnitOfWork
+namespace DataLayer.UnitOfWork
 {
     public class UnitOfWorkImpl : IUnitOfWork
     {

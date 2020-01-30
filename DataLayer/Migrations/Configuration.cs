@@ -1,18 +1,18 @@
-﻿namespace Homework1.Migrations
+﻿namespace DataLayer.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Homework1.Model1>
+    internal sealed class Configuration : DbMigrationsConfiguration<Model1>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Homework1.Model1 context)
+        protected override void Seed(Model1 context)
         {
             //  This method will be called after migrating to the latest version.
 

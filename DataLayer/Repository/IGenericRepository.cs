@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
-namespace Homework1.Repository
+namespace DataLayer.Repository
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {

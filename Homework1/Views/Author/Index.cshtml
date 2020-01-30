@@ -1,4 +1,4 @@
-﻿@model List<Author>
+﻿@model List<Homework1.Models.AuthorViewModel>
 @{
     ViewBag.Title = "Index";
 }
@@ -17,11 +17,11 @@
     </thead>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@item.FirstName</td>
-            <td>@item.LastName</td>
-            <td>@Html.ActionLink("Редактировать автора", "Edit", new { @id = item.Id })</td>
-            <td>@Html.ActionLink("Удалить автора", "Delete", new { @id = item.Id })</td>
-        </tr>
+    <tr>
+        <td>@item.FirstName</td>
+        <td>@item.LastName</td>
+        <td>@Html.ActionLink("Редактировать автора", "Edit", new { @id = item.Id })</td>
+        <td>@Html.ActionLink("Удалить автора", "Delete", new { @id = item.Id })</td>
+    </tr>
     }
 </table>
